@@ -9,7 +9,6 @@
     :root{
       --bg:#0b0c10;
       --card:#121420;
-      --card2:#0f1220;
       --text:#e9ecff;
       --muted:#a9b0d6;
       --line:rgba(255,255,255,.10);
@@ -18,7 +17,7 @@
       --danger:#ff4d6d;
       --shadow: 0 18px 60px rgba(0,0,0,.45);
       --r:18px;
-      --max: 960px;
+      --max: 980px;
     }
     *{box-sizing:border-box}
     body{
@@ -32,17 +31,28 @@
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", Arial, "맑은 고딕", sans-serif;
       line-height:1.35;
     }
-    a{color:inherit}
-    .wrap{max-width:var(--max); margin:0 auto; padding:28px 16px 56px;}
-    header{
-      display:flex; gap:14px; align-items:flex-start; justify-content:space-between;
-      margin-bottom:18px;
+
+    .wrap{max-width:var(--max); margin:0 auto; padding:24px 16px 56px; position:relative;}
+    .hero{
+      display:flex; gap:16px; align-items:flex-start; justify-content:space-between;
+      margin-bottom:14px;
+    }
+    .brand{
+      display:flex; gap:14px; align-items:center;
+    }
+    .logo{
+      width:64px; height:64px; border-radius:16px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      object-fit:cover;
+      box-shadow: 0 10px 35px rgba(0,0,0,.35);
+      flex:0 0 auto;
     }
     .title{
-      display:flex; flex-direction:column; gap:8px;
+      display:flex; flex-direction:column; gap:6px;
     }
-    h1{margin:0; font-size: clamp(22px, 2.8vw, 34px); letter-spacing:-.02em;}
-    .sub{color:var(--muted); font-size:14px}
+    h1{margin:0; font-size: clamp(20px, 2.6vw, 34px); letter-spacing:-.02em;}
+    .sub{color:var(--muted); font-size:14px; max-width: 62ch;}
     .pill{
       display:inline-flex; align-items:center; gap:8px;
       background: rgba(255,255,255,.06);
@@ -52,8 +62,28 @@
       color:var(--muted);
       font-size:12px;
       white-space:nowrap;
+      height: fit-content;
     }
     .pill b{color:var(--text)}
+
+    /* mascot */
+    .mascotFloat{
+      position:absolute;
+      right: 10px;
+      top: 6px;
+      width: 110px;
+      height:auto;
+      opacity: .95;
+      transform: rotate(2deg);
+      filter: drop-shadow(0 18px 45px rgba(0,0,0,.55));
+      pointer-events:none;
+      user-select:none;
+    }
+    @media (max-width: 720px){
+      .hero{flex-direction:column; align-items:flex-start}
+      .mascotFloat{right: 2px; top: 84px; width: 92px; opacity:.9;}
+    }
+
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       border: 1px solid var(--line);
@@ -84,6 +114,7 @@
     }
     .pct{color:var(--muted); font-size:12px; min-width:70px; text-align:right;}
     .body{padding:16px;}
+
     .q{
       border:1px solid var(--line);
       border-radius:16px;
@@ -103,10 +134,20 @@
       background: rgba(124,92,255,.18);
       border:1px solid rgba(124,92,255,.35);
       color:var(--text);
-      font-weight:700;
+      font-weight:800;
       font-size:13px;
       flex:0 0 auto;
     }
+    .q .multi{
+      margin-left:auto;
+      color: rgba(233,236,255,.75);
+      font-size:12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      padding:6px 10px;
+      border-radius:999px;
+    }
+
     .opts{
       display:grid;
       grid-template-columns: repeat(2, minmax(0,1fr));
@@ -114,9 +155,8 @@
     }
     @media (max-width: 720px){
       .opts{grid-template-columns:1fr;}
-      header{flex-direction:column; align-items:flex-start}
-      .pill{align-self:flex-start}
     }
+
     label.opt{
       display:flex; gap:10px; align-items:flex-start;
       padding:12px 12px;
@@ -135,11 +175,12 @@
       border-radius:10px;
       background: rgba(40,215,164,.14);
       border:1px solid rgba(40,215,164,.28);
-      font-weight:800;
+      font-weight:900;
       font-size:12px;
       flex:0 0 auto;
     }
     .opt .txt{color:var(--text); font-size:14px;}
+
     .actions{
       display:flex; gap:10px; flex-wrap:wrap;
       margin-top:14px;
@@ -153,7 +194,7 @@
       color: var(--text);
       padding:11px 14px;
       border-radius:14px;
-      font-weight:700;
+      font-weight:800;
       cursor:pointer;
       transition: transform .05s ease, background .2s ease, border-color .2s ease;
     }
@@ -178,20 +219,23 @@
       color:#ffd0d8;
       font-size:13px;
     }
+
     .result{
       display:none;
       margin-top:14px;
       border-top:1px solid var(--line);
       padding-top:14px;
     }
-    .rhead{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
-      margin-bottom:10px;
+    .rgrid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:12px;
+      align-items:start;
     }
-    .rtype{
-      font-size:20px; margin:0;
-      letter-spacing:-.02em;
+    @media (max-width: 900px){
+      .rgrid{grid-template-columns:1fr;}
     }
+    .rtype{font-size:20px; margin:0; letter-spacing:-.02em;}
     .badge{
       display:inline-flex; gap:8px; align-items:center;
       padding:8px 10px;
@@ -201,6 +245,7 @@
       color:var(--muted);
       font-size:12px;
       white-space:nowrap;
+      margin-top:8px;
     }
     .desc{color:var(--text); font-size:14px; margin:8px 0 12px;}
     .chips{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 0;}
@@ -212,6 +257,31 @@
       border-radius:999px;
       font-size:12px;
     }
+
+    .mascotCard{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.14);
+      border-radius:16px;
+      padding:12px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .mascotImg{
+      width:96px; height:96px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      object-fit:cover;
+      flex:0 0 auto;
+    }
+    .mascotMeta{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.4;
+    }
+    .mascotMeta b{color:var(--text);}
+
     .sharebox{
       border:1px solid var(--line);
       background: rgba(0,0,0,.14);
@@ -237,13 +307,18 @@
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <div class="title">
-        <h1>🎶 국악기 성격 테스트</h1>
-        <div class="sub">9문항으로 당신의 유형을 찾아요: 가야금 · 거문고 · 대금 · 소금 · 피리(태평소) · 해금 · 아쟁 · 장구</div>
+    <img id="mascotFloat" class="mascotFloat" alt="마스코트" src="assets/mascot1.png" />
+
+    <div class="hero">
+      <div class="brand">
+        <img class="logo" src="assets/logo.png" alt="동아리 로고" />
+        <div class="title">
+          <h1>🎶 국악기 성격 테스트</h1>
+          <div class="sub">복수선택 가능! (각 문항에서 여러 개 체크 가능) · 유형 알파벳(A~H)은 매번 랜덤으로 섞여요</div>
+        </div>
       </div>
       <div class="pill">진행: <b id="doneCount">0</b>/9</div>
-    </header>
+    </div>
 
     <section class="card">
       <div class="top">
@@ -257,41 +332,77 @@
         <!-- Questions injected by JS -->
         <div class="actions">
           <div class="btns">
-            <button class="primary" id="calcBtn">결과 보기</button>
+            <button class="primary" id="calcBtn" type="button">결과 보기</button>
             <button class="danger" id="resetBtn" type="button">처음부터</button>
           </div>
-          <div class="hint">각 문항에서 가장 가까운 것 1개를 고르세요.</div>
+          <div class="hint">각 문항은 <b>복수선택(체크박스)</b> 가능. 최소 1개는 선택해줘!</div>
         </div>
+
         <div class="err" id="err"></div>
 
         <div class="result" id="result">
-          <div class="rhead">
+          <div class="rgrid">
             <div>
               <h2 class="rtype" id="rtype">결과</h2>
               <div class="desc" id="rdesc"></div>
               <div class="chips" id="rchips"></div>
-            </div>
-            <div class="badge" id="rbadge">유형 코드: -</div>
-          </div>
+              <div class="badge" id="rbadge">유형 코드: -</div>
 
-          <div class="sharebox">
-            <div class="shareline">
-              <div class="sharetext" id="shareText">공유 문구가 여기에 표시됩니다.</div>
-              <div class="btns">
-                <button id="copyBtn" type="button">공유 문구 복사</button>
-                <button id="copyLinkBtn" type="button">링크 복사</button>
+              <div class="sharebox">
+                <div class="shareline">
+                  <div class="sharetext" id="shareText">공유 문구가 여기에 표시됩니다.</div>
+                  <div class="btns">
+                    <button id="copyBtn" type="button">공유 문구 복사</button>
+                    <button id="copyLinkBtn" type="button">링크 복사</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mascotCard">
+              <img id="mascotResult" class="mascotImg" src="assets/mascot1.png" alt="마스코트" />
+              <div class="mascotMeta">
+                <div><b>마스코트</b>가 결과를 축하해요 🎉</div>
+                <div style="margin-top:6px;">(페이지 새로고침마다 다른 포즈가 나와요)</div>
               </div>
             </div>
           </div>
-        </div>
 
-        <footer>© 국악기 테스트 · 단일 파일 버전 (HTML/CSS/JS)</footer>
+          <footer>© 국악기 테스트 · assets 폴더에 로고/마스코트 이미지 넣으면 자동 반영</footer>
+        </div>
       </div>
     </section>
   </div>
 
 <script>
-  // ====== Data ======
+  // ====== Utilities ======
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // ====== Mascots ======
+  const mascots = [
+    "assets/mascot1.png",
+    "assets/mascot2.png",
+    "assets/mascot3.png",
+    "assets/mascot4.png",
+    "assets/mascot5.png",
+    "assets/mascot6.png",
+    "assets/mascot7.png",
+  ];
+  function pickMascot(){
+    return mascots[Math.floor(Math.random()*mascots.length)];
+  }
+  const pickedMascot = pickMascot();
+  document.getElementById("mascotFloat").src = pickedMascot;
+  document.getElementById("mascotResult").src = pickedMascot;
+
+  // ====== Types ======
   const mapType = {
     A: { name:"가야금형", code:"A", short:"감성 공감러",
       desc:"섬세하고 따뜻한 공감으로 분위기를 부드럽게 만드는 타입. 감정의 결을 잘 느끼고, 관계를 오래 가꾸는 편이에요.",
@@ -327,7 +438,7 @@
     },
   };
 
-  // 9 questions, each option corresponds to A-H
+  // ====== Questions ======
   const questions = [
     {
       title:"모임에서 나는…",
@@ -448,6 +559,12 @@
     },
   ];
 
+  // 랜덤 배치(문항마다 옵션 순서 섞기) - 페이지 로드 시 고정
+  const shuffledOptionsPerQuestion = questions.map(q => {
+    const entries = Object.entries(q.opts).map(([key, text]) => ({ key, text }));
+    return shuffle(entries);
+  });
+
   // ====== Render ======
   const testEl = document.getElementById("test");
   const resultEl = document.getElementById("result");
@@ -473,24 +590,30 @@
       const t = document.createElement("span");
       t.textContent = q.title;
       h.appendChild(t);
+
+      const multi = document.createElement("span");
+      multi.className = "multi";
+      multi.textContent = "복수선택";
+      h.appendChild(multi);
+
       box.appendChild(h);
 
       const opts = document.createElement("div");
       opts.className = "opts";
 
-      Object.entries(q.opts).forEach(([key, text]) => {
+      shuffledOptionsPerQuestion[i].forEach(({key, text}) => {
         const label = document.createElement("label");
         label.className = "opt";
 
         const input = document.createElement("input");
-        input.type = "radio";
+        input.type = "checkbox";           // ✅ 복수선택
         input.name = `q${i+1}`;
         input.value = key;
         input.addEventListener("change", updateProgress);
 
         const tag = document.createElement("span");
         tag.className = "tag";
-        tag.textContent = key;
+        tag.textContent = key;             // ✅ A~H 그대로 보여주되, 위치는 섞여서 랜덤
 
         const span = document.createElement("span");
         span.className = "txt";
@@ -506,27 +629,35 @@
       frag.appendChild(box);
     });
 
-    // Insert before actions block (actions block exists already)
     const actions = document.querySelector(".actions");
     testEl.insertBefore(frag, actions);
     updateProgress();
   }
 
+  function countAnsweredQuestions(){
+    let answered = 0;
+    for(let i=1;i<=questions.length;i++){
+      const anyChecked = document.querySelectorAll(`input[name="q${i}"]:checked`).length > 0;
+      if(anyChecked) answered++;
+    }
+    return answered;
+  }
+
   function updateProgress(){
-    const answered = getAnswers().length;
+    const answered = countAnsweredQuestions();
     const pct = Math.round((answered / questions.length) * 100);
     doneCountEl.textContent = answered;
     barEl.style.width = pct + "%";
     pctEl.textContent = pct + "%";
   }
 
-  function getAnswers(){
-    const answers = [];
+  function getAnswersByQuestion(){
+    const byQ = [];
     for(let i=1;i<=questions.length;i++){
-      const checked = document.querySelector(`input[name="q${i}"]:checked`);
-      if(checked) answers.push(checked.value);
+      const checked = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(x => x.value);
+      byQ.push(checked);
     }
-    return answers;
+    return byQ;
   }
 
   // ====== Scoring ======
@@ -534,26 +665,21 @@
     errEl.style.display = "none";
     resultEl.style.display = "none";
 
-    const answers = getAnswers();
-    if(answers.length !== questions.length){
-      const missing = [];
-      for(let i=1;i<=questions.length;i++){
-        if(!document.querySelector(`input[name="q${i}"]:checked`)) missing.push(i);
-      }
-      errEl.textContent = `아직 선택하지 않은 문항이 있어요: ${missing.join(", ")}번`;
+    const answersByQ = getAnswersByQuestion();
+    const missing = [];
+    answersByQ.forEach((arr, idx) => { if(arr.length === 0) missing.push(idx+1); });
+
+    if(missing.length){
+      errEl.textContent = `아직 선택하지 않은 문항이 있어요: ${missing.join(", ")}번 (각 문항 최소 1개 선택)`;
       errEl.style.display = "block";
-      // Scroll to first missing
-      const first = missing[0];
-      if(first){
-        document.getElementById(`q${first}`).scrollIntoView({behavior:"smooth", block:"center"});
-      }
+      document.getElementById(`q${missing[0]}`).scrollIntoView({behavior:"smooth", block:"center"});
       return;
     }
 
     const counts = {A:0,B:0,C:0,D:0,E:0,F:0,G:0,H:0};
-    answers.forEach(a => counts[a]++);
+    answersByQ.flat().forEach(k => counts[k]++);
 
-    // find max
+    // max + tie
     let max = -1;
     let tied = [];
     for(const k of Object.keys(counts)){
@@ -565,20 +691,18 @@
       }
     }
 
-    // tie-break: Q9 -> Q7 -> fixed order
-    const tieBreakOrder = [
-      answers[8], // Q9
-      answers[6], // Q7
-      "E","H","B","G","A","F","C","D" // deterministic fallback
-    ];
+    // tie-break: Q9 선택 중 tied가 있으면 그중 하나, 없으면 Q7, 없으면 고정 우선순위
+    const pref = ["E","H","B","G","A","F","C","D"];
+    function pickFromQuestion(qIndex){ // 0-based
+      for(const k of answersByQ[qIndex]){
+        if(tied.includes(k)) return k;
+      }
+      return null;
+    }
+
     let winner = tied[0];
     if(tied.length > 1){
-      for(const pick of tieBreakOrder){
-        if(tied.includes(pick)){
-          winner = pick;
-          break;
-        }
-      }
+      winner = pickFromQuestion(8) || pickFromQuestion(6) || pref.find(x => tied.includes(x)) || tied[0];
     }
 
     showResult(winner, counts);
@@ -604,12 +728,9 @@
     const link = makeShareLink(info.code);
 
     document.getElementById("shareText").textContent = share;
-
-    // store for copy
     window.__shareText = share;
     window.__shareLink = link;
 
-    // update URL param for easy sharing
     const url = new URL(window.location.href);
     url.searchParams.set("r", info.code);
     window.history.replaceState({}, "", url.toString());
@@ -619,7 +740,6 @@
   }
 
   function makeShareText(info, counts){
-    // small score summary (top 3)
     const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
     const top3 = sorted.slice(0,3).map(([k,v]) => `${k}${v}`).join(" · ");
     return `🎶 국악기 성격 테스트 결과: ${info.name} (${info.short}) | 점수: ${top3}`;
@@ -632,7 +752,7 @@
   }
 
   function resetAll(){
-    document.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
+    document.querySelectorAll('input[type="checkbox"]').forEach(i => i.checked = false);
     errEl.style.display = "none";
     resultEl.style.display = "none";
     updateProgress();
@@ -649,7 +769,6 @@
       await navigator.clipboard.writeText(text);
       return true;
     }catch(e){
-      // fallback
       const ta = document.createElement("textarea");
       ta.value = text;
       document.body.appendChild(ta);
@@ -674,7 +793,7 @@
     alert(ok ? "링크를 복사했어요!" : "복사에 실패했어요. 주소창에서 복사해줘!");
   });
 
-  // If URL has ?r=A etc, show that result without answering (preview mode)
+  // URL에 ?r=A 있으면 결과 미리보기
   function loadPreviewFromURL(){
     const url = new URL(window.location.href);
     const r = (url.searchParams.get("r") || "").toUpperCase();
