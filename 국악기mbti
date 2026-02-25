@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>국악기 성격 테스트 (9문항)</title>
+  <meta name="description" content="9문항으로 알아보는 나의 국악기 유형: 가야금/거문고/대금/소금/피리(태평소)/해금/아쟁/장구" />
+  <style>
+    :root{
+      --bg:#0b0c10;
+      --card:#121420;
+      --card2:#0f1220;
+      --text:#e9ecff;
+      --muted:#a9b0d6;
+      --line:rgba(255,255,255,.10);
+      --accent:#7c5cff;
+      --accent2:#28d7a4;
+      --danger:#ff4d6d;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --r:18px;
+      --max: 960px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(124,92,255,.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(40,215,164,.14), transparent 55%),
+        radial-gradient(900px 700px at 40% 100%, rgba(255,77,109,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", Arial, "맑은 고딕", sans-serif;
+      line-height:1.35;
+    }
+    a{color:inherit}
+    .wrap{max-width:var(--max); margin:0 auto; padding:28px 16px 56px;}
+    header{
+      display:flex; gap:14px; align-items:flex-start; justify-content:space-between;
+      margin-bottom:18px;
+    }
+    .title{
+      display:flex; flex-direction:column; gap:8px;
+    }
+    h1{margin:0; font-size: clamp(22px, 2.8vw, 34px); letter-spacing:-.02em;}
+    .sub{color:var(--muted); font-size:14px}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      padding:8px 12px;
+      border-radius:999px;
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .pill b{color:var(--text)}
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .top{
+      padding:16px 16px 12px;
+      border-bottom:1px solid var(--line);
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+      background: rgba(0,0,0,.15);
+    }
+    .progress{
+      flex:1;
+      height:10px;
+      background: rgba(255,255,255,.07);
+      border:1px solid var(--line);
+      border-radius:999px;
+      overflow:hidden;
+    }
+    .bar{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius:999px;
+      transition: width .25s ease;
+    }
+    .pct{color:var(--muted); font-size:12px; min-width:70px; text-align:right;}
+    .body{padding:16px;}
+    .q{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background: rgba(0,0,0,.12);
+      padding:14px;
+      margin-bottom:12px;
+    }
+    .q h3{
+      margin:0 0 10px;
+      font-size:15px;
+      letter-spacing:-.01em;
+      display:flex; align-items:center; gap:10px;
+    }
+    .q .num{
+      width:28px; height:28px; border-radius:10px;
+      display:inline-grid; place-items:center;
+      background: rgba(124,92,255,.18);
+      border:1px solid rgba(124,92,255,.35);
+      color:var(--text);
+      font-weight:700;
+      font-size:13px;
+      flex:0 0 auto;
+    }
+    .opts{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:10px;
+    }
+    @media (max-width: 720px){
+      .opts{grid-template-columns:1fr;}
+      header{flex-direction:column; align-items:flex-start}
+      .pill{align-self:flex-start}
+    }
+    label.opt{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      cursor:pointer;
+      transition: transform .05s ease, border-color .2s ease, background .2s ease;
+      user-select:none;
+    }
+    label.opt:hover{border-color: rgba(255,255,255,.22); transform: translateY(-1px);}
+    label.opt input{margin-top:2px;}
+    .opt .tag{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:26px; height:26px;
+      border-radius:10px;
+      background: rgba(40,215,164,.14);
+      border:1px solid rgba(40,215,164,.28);
+      font-weight:800;
+      font-size:12px;
+      flex:0 0 auto;
+    }
+    .opt .txt{color:var(--text); font-size:14px;}
+    .actions{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:14px;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .btns{display:flex; gap:10px; flex-wrap:wrap;}
+    button{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding:11px 14px;
+      border-radius:14px;
+      font-weight:700;
+      cursor:pointer;
+      transition: transform .05s ease, background .2s ease, border-color .2s ease;
+    }
+    button:hover{border-color: rgba(255,255,255,.22); transform: translateY(-1px);}
+    button.primary{
+      background: linear-gradient(90deg, rgba(124,92,255,.95), rgba(40,215,164,.92));
+      border-color: transparent;
+      color:#0b0c10;
+    }
+    button.danger{
+      background: rgba(255,77,109,.12);
+      border-color: rgba(255,77,109,.28);
+    }
+    .hint{color:var(--muted); font-size:12px;}
+    .err{
+      display:none;
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,77,109,.35);
+      background: rgba(255,77,109,.10);
+      color:#ffd0d8;
+      font-size:13px;
+    }
+    .result{
+      display:none;
+      margin-top:14px;
+      border-top:1px solid var(--line);
+      padding-top:14px;
+    }
+    .rhead{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+      margin-bottom:10px;
+    }
+    .rtype{
+      font-size:20px; margin:0;
+      letter-spacing:-.02em;
+    }
+    .badge{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .desc{color:var(--text); font-size:14px; margin:8px 0 12px;}
+    .chips{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 0;}
+    .chip{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      color:var(--muted);
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:12px;
+    }
+    .sharebox{
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.14);
+      border-radius:16px;
+      padding:12px;
+      margin-top:12px;
+    }
+    .shareline{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+    }
+    .sharetext{
+      color:var(--muted);
+      font-size:12px;
+      word-break:break-all;
+    }
+    footer{
+      margin-top:14px;
+      color:rgba(233,236,255,.55);
+      font-size:12px;
+      text-align:center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>🎶 국악기 성격 테스트</h1>
+        <div class="sub">9문항으로 당신의 유형을 찾아요: 가야금 · 거문고 · 대금 · 소금 · 피리(태평소) · 해금 · 아쟁 · 장구</div>
+      </div>
+      <div class="pill">진행: <b id="doneCount">0</b>/9</div>
+    </header>
+
+    <section class="card">
+      <div class="top">
+        <div class="progress" aria-label="progress">
+          <div class="bar" id="bar"></div>
+        </div>
+        <div class="pct" id="pct">0%</div>
+      </div>
+
+      <div class="body" id="test">
+        <!-- Questions injected by JS -->
+        <div class="actions">
+          <div class="btns">
+            <button class="primary" id="calcBtn">결과 보기</button>
+            <button class="danger" id="resetBtn" type="button">처음부터</button>
+          </div>
+          <div class="hint">각 문항에서 가장 가까운 것 1개를 고르세요.</div>
+        </div>
+        <div class="err" id="err"></div>
+
+        <div class="result" id="result">
+          <div class="rhead">
+            <div>
+              <h2 class="rtype" id="rtype">결과</h2>
+              <div class="desc" id="rdesc"></div>
+              <div class="chips" id="rchips"></div>
+            </div>
+            <div class="badge" id="rbadge">유형 코드: -</div>
+          </div>
+
+          <div class="sharebox">
+            <div class="shareline">
+              <div class="sharetext" id="shareText">공유 문구가 여기에 표시됩니다.</div>
+              <div class="btns">
+                <button id="copyBtn" type="button">공유 문구 복사</button>
+                <button id="copyLinkBtn" type="button">링크 복사</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer>© 국악기 테스트 · 단일 파일 버전 (HTML/CSS/JS)</footer>
+      </div>
+    </section>
+  </div>
+
+<script>
+  // ====== Data ======
+  const mapType = {
+    A: { name:"가야금형", code:"A", short:"감성 공감러",
+      desc:"섬세하고 따뜻한 공감으로 분위기를 부드럽게 만드는 타입. 감정의 결을 잘 느끼고, 관계를 오래 가꾸는 편이에요.",
+      chips:["따뜻함","공감","분위기 안정","섬세한 표현"]
+    },
+    B: { name:"거문고형", code:"B", short:"묵직한 전략가",
+      desc:"말수는 적어도 중심을 잡고 깊게 생각하는 타입. 조용하지만 존재감이 크고, 신뢰를 천천히 쌓아요.",
+      chips:["신중함","깊이","자기 기준","무게감"]
+    },
+    C: { name:"대금형", code:"C", short:"감성 예술가",
+      desc:"감정과 영감이 흐르는 대로 표현하는 타입. 자유롭고 즉흥적이며, 분위기를 ‘확’ 바꾸는 재능이 있어요.",
+      chips:["표현력","즉흥성","자유로움","영감"]
+    },
+    D: { name:"소금형", code:"D", short:"맑은 관찰자",
+      desc:"조용하지만 예민한 감각으로 상황을 읽는 타입. 작은 디테일을 잘 보고, 맑고 정교한 취향을 가졌어요.",
+      chips:["관찰력","섬세함","정제된 취향","조용한 존재감"]
+    },
+    E: { name:"피리/태평소형", code:"E", short:"강렬한 리더",
+      desc:"추진력과 에너지가 강한 타입. ‘내가 나서야 한다’는 순간을 잘 알고, 존재감으로 판을 열어요.",
+      chips:["추진력","카리스마","직진","에너지"]
+    },
+    F: { name:"해금형", code:"F", short:"서사 공감 장인",
+      desc:"사람의 감정선을 깊게 읽는 타입. 슬픔도 아름답게 다루고, 누군가의 마음을 정확히 어루만져요.",
+      chips:["공감력","감정선","진정성","치유"]
+    },
+    G: { name:"아쟁형", code:"G", short:"묵직한 현실주의자",
+      desc:"쉽게 흔들리지 않고 책임을 지는 타입. 안정감이 강하고, ‘해야 할 일’을 끝까지 완수해요.",
+      chips:["책임감","안정","원칙","지구력"]
+    },
+    H: { name:"장구형", code:"H", short:"리듬 조율자",
+      desc:"전체 흐름과 팀 밸런스를 잡는 타입. 분위기·리듬·속도를 조절해 사람들이 잘 굴러가게 만들어요.",
+      chips:["조율","균형감","눈치/센스","다재다능"]
+    },
+  };
+
+  // 9 questions, each option corresponds to A-H
+  const questions = [
+    {
+      title:"모임에서 나는…",
+      opts:{
+        A:"분위기를 부드럽게 만든다",
+        B:"말은 적지만 중심을 잡는다",
+        C:"감정이 올라오면 바로 표현한다",
+        D:"조용히 분위기를 읽는다",
+        E:"내가 있어야 판이 산다",
+        F:"누군가 힘들어 보이면 먼저 챙긴다",
+        G:"쉽게 흔들리지 않는다",
+        H:"흐름이 끊기면 내가 정리한다",
+      }
+    },
+    {
+      title:"갈등 상황에서 나는…",
+      opts:{
+        A:"서로 감정 상하지 않게 중재한다",
+        B:"감정보다 논리로 판단한다",
+        C:"솔직하게 다 말한다",
+        D:"한 발 물러나 상황을 본다",
+        E:"강하게 밀어붙인다",
+        F:"상대 감정을 먼저 공감한다",
+        G:"원칙대로 처리한다",
+        H:"전체 균형을 맞춘다",
+      }
+    },
+    {
+      title:"내가 듣고 싶은 말은?",
+      opts:{
+        A:"“너 덕분에 분위기 좋아졌어”",
+        B:"“역시 너는 믿음직해”",
+        C:"“너 진짜 개성 있다”",
+        D:"“넌 섬세하다”",
+        E:"“너 없으면 안 된다”",
+        F:"“넌 정말 이해심 깊어”",
+        G:"“역시 책임감 있다”",
+        H:"“넌 조율을 잘해”",
+      }
+    },
+    {
+      title:"연애 스타일은?",
+      opts:{
+        A:"따뜻하게 오래 가는 스타일",
+        B:"신중하게 시작한다",
+        C:"감정 표현이 풍부하다",
+        D:"속마음은 깊지만 표현은 적다",
+        E:"직진형",
+        F:"상대의 감정에 예민하다",
+        G:"안정이 최우선",
+        H:"서로 균형이 맞는 게 중요",
+      }
+    },
+    {
+      title:"내가 스트레스 받을 때는?",
+      opts:{
+        A:"분위기가 차가울 때",
+        B:"무계획일 때",
+        C:"답답하게 참아야 할 때",
+        D:"너무 시끄러울 때",
+        E:"답이 느릴 때",
+        F:"공감 못 받을 때",
+        G:"책임을 다 못했을 때",
+        H:"팀워크가 깨질 때",
+      }
+    },
+    {
+      title:"나는 즉흥적인가?",
+      opts:{
+        A:"상황에 따라 다르다",
+        B:"거의 아니다",
+        C:"꽤 즉흥적이다",
+        D:"혼자 있을 땐 즉흥적이다",
+        E:"즉흥 추진 좋아함",
+        F:"감정에 따라 다름",
+        G:"계획이 우선",
+        H:"전체 흐름 보고 움직인다",
+      }
+    },
+    {
+      title:"나의 강점은?",
+      opts:{
+        A:"따뜻함",
+        B:"깊이",
+        C:"표현력",
+        D:"섬세함",
+        E:"카리스마",
+        F:"공감력",
+        G:"책임감",
+        H:"조율 능력",
+      }
+    },
+    {
+      title:"사람들이 나를 보는 이미지는?",
+      opts:{
+        A:"부드러운 사람",
+        B:"묵직한 사람",
+        C:"자유로운 사람",
+        D:"조용한 사람",
+        E:"강렬한 사람",
+        F:"감성적인 사람",
+        G:"든든한 사람",
+        H:"분위기 메이커",
+      }
+    },
+    {
+      title:"나는 어떤 소리에 가깝나?",
+      opts:{
+        A:"맑고 따뜻한 울림",
+        B:"낮고 깊은 울림",
+        C:"시원하게 뻗는 소리",
+        D:"맑고 가는 소리",
+        E:"강렬하게 터지는 소리",
+        F:"사람 목소리 같은 소리",
+        G:"묵직하게 울리는 소리",
+        H:"리듬을 잡는 소리",
+      }
+    },
+  ];
+
+  // ====== Render ======
+  const testEl = document.getElementById("test");
+  const resultEl = document.getElementById("result");
+  const errEl = document.getElementById("err");
+  const barEl = document.getElementById("bar");
+  const pctEl = document.getElementById("pct");
+  const doneCountEl = document.getElementById("doneCount");
+
+  function render(){
+    const frag = document.createDocumentFragment();
+
+    questions.forEach((q, i) => {
+      const box = document.createElement("div");
+      box.className = "q";
+      box.id = `q${i+1}`;
+
+      const h = document.createElement("h3");
+      const n = document.createElement("span");
+      n.className = "num";
+      n.textContent = (i+1);
+      h.appendChild(n);
+
+      const t = document.createElement("span");
+      t.textContent = q.title;
+      h.appendChild(t);
+      box.appendChild(h);
+
+      const opts = document.createElement("div");
+      opts.className = "opts";
+
+      Object.entries(q.opts).forEach(([key, text]) => {
+        const label = document.createElement("label");
+        label.className = "opt";
+
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = `q${i+1}`;
+        input.value = key;
+        input.addEventListener("change", updateProgress);
+
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = key;
+
+        const span = document.createElement("span");
+        span.className = "txt";
+        span.textContent = text;
+
+        label.appendChild(input);
+        label.appendChild(tag);
+        label.appendChild(span);
+        opts.appendChild(label);
+      });
+
+      box.appendChild(opts);
+      frag.appendChild(box);
+    });
+
+    // Insert before actions block (actions block exists already)
+    const actions = document.querySelector(".actions");
+    testEl.insertBefore(frag, actions);
+    updateProgress();
+  }
+
+  function updateProgress(){
+    const answered = getAnswers().length;
+    const pct = Math.round((answered / questions.length) * 100);
+    doneCountEl.textContent = answered;
+    barEl.style.width = pct + "%";
+    pctEl.textContent = pct + "%";
+  }
+
+  function getAnswers(){
+    const answers = [];
+    for(let i=1;i<=questions.length;i++){
+      const checked = document.querySelector(`input[name="q${i}"]:checked`);
+      if(checked) answers.push(checked.value);
+    }
+    return answers;
+  }
+
+  // ====== Scoring ======
+  function calcResult(){
+    errEl.style.display = "none";
+    resultEl.style.display = "none";
+
+    const answers = getAnswers();
+    if(answers.length !== questions.length){
+      const missing = [];
+      for(let i=1;i<=questions.length;i++){
+        if(!document.querySelector(`input[name="q${i}"]:checked`)) missing.push(i);
+      }
+      errEl.textContent = `아직 선택하지 않은 문항이 있어요: ${missing.join(", ")}번`;
+      errEl.style.display = "block";
+      // Scroll to first missing
+      const first = missing[0];
+      if(first){
+        document.getElementById(`q${first}`).scrollIntoView({behavior:"smooth", block:"center"});
+      }
+      return;
+    }
+
+    const counts = {A:0,B:0,C:0,D:0,E:0,F:0,G:0,H:0};
+    answers.forEach(a => counts[a]++);
+
+    // find max
+    let max = -1;
+    let tied = [];
+    for(const k of Object.keys(counts)){
+      if(counts[k] > max){
+        max = counts[k];
+        tied = [k];
+      } else if(counts[k] === max){
+        tied.push(k);
+      }
+    }
+
+    // tie-break: Q9 -> Q7 -> fixed order
+    const tieBreakOrder = [
+      answers[8], // Q9
+      answers[6], // Q7
+      "E","H","B","G","A","F","C","D" // deterministic fallback
+    ];
+    let winner = tied[0];
+    if(tied.length > 1){
+      for(const pick of tieBreakOrder){
+        if(tied.includes(pick)){
+          winner = pick;
+          break;
+        }
+      }
+    }
+
+    showResult(winner, counts);
+  }
+
+  function showResult(key, counts){
+    const info = mapType[key];
+
+    document.getElementById("rtype").textContent = `당신은 ${info.name} 🎵`;
+    document.getElementById("rdesc").textContent = info.desc;
+    document.getElementById("rbadge").textContent = `유형 코드: ${info.code} · ${info.short}`;
+
+    const chips = document.getElementById("rchips");
+    chips.innerHTML = "";
+    info.chips.forEach(c => {
+      const el = document.createElement("span");
+      el.className = "chip";
+      el.textContent = c;
+      chips.appendChild(el);
+    });
+
+    const share = makeShareText(info, counts);
+    const link = makeShareLink(info.code);
+
+    document.getElementById("shareText").textContent = share;
+
+    // store for copy
+    window.__shareText = share;
+    window.__shareLink = link;
+
+    // update URL param for easy sharing
+    const url = new URL(window.location.href);
+    url.searchParams.set("r", info.code);
+    window.history.replaceState({}, "", url.toString());
+
+    resultEl.style.display = "block";
+    resultEl.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  function makeShareText(info, counts){
+    // small score summary (top 3)
+    const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+    const top3 = sorted.slice(0,3).map(([k,v]) => `${k}${v}`).join(" · ");
+    return `🎶 국악기 성격 테스트 결과: ${info.name} (${info.short}) | 점수: ${top3}`;
+  }
+
+  function makeShareLink(code){
+    const url = new URL(window.location.href);
+    url.searchParams.set("r", code);
+    return url.toString();
+  }
+
+  function resetAll(){
+    document.querySelectorAll('input[type="radio"]').forEach(i => i.checked = false);
+    errEl.style.display = "none";
+    resultEl.style.display = "none";
+    updateProgress();
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete("r");
+    window.history.replaceState({}, "", url.toString());
+
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  async function copy(text){
+    try{
+      await navigator.clipboard.writeText(text);
+      return true;
+    }catch(e){
+      // fallback
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(ta);
+      return ok;
+    }
+  }
+
+  // ====== Events ======
+  document.getElementById("calcBtn").addEventListener("click", calcResult);
+  document.getElementById("resetBtn").addEventListener("click", resetAll);
+
+  document.getElementById("copyBtn").addEventListener("click", async () => {
+    const ok = await copy(window.__shareText || document.getElementById("shareText").textContent);
+    alert(ok ? "공유 문구를 복사했어요!" : "복사에 실패했어요. 직접 드래그해서 복사해줘!");
+  });
+
+  document.getElementById("copyLinkBtn").addEventListener("click", async () => {
+    const ok = await copy(window.__shareLink || window.location.href);
+    alert(ok ? "링크를 복사했어요!" : "복사에 실패했어요. 주소창에서 복사해줘!");
+  });
+
+  // If URL has ?r=A etc, show that result without answering (preview mode)
+  function loadPreviewFromURL(){
+    const url = new URL(window.location.href);
+    const r = (url.searchParams.get("r") || "").toUpperCase();
+    if(mapType[r]){
+      const fakeCounts = {A:0,B:0,C:0,D:0,E:0,F:0,G:0,H:0};
+      fakeCounts[r]=1;
+      showResult(r, fakeCounts);
+    }
+  }
+
+  render();
+  loadPreviewFromURL();
+</script>
+</body>
+</html>
