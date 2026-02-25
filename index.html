@@ -346,6 +346,7 @@
               <h2 class="rtype" id="rtype">결과</h2>
               <div class="desc" id="rdesc"></div>
               <div class="chips" id="rchips"></div>
+              <div id="rankTop3" style="margin-top:12px; font-size:14px; line-height:1.6;"></div>
               <div class="badge" id="rbadge">유형 코드: -</div>
 
               <div class="sharebox">
@@ -722,7 +723,21 @@
       el.textContent = c;
       chips.appendChild(el);
     });
+    // 🔥 TOP3 계산
+    const sorted = Object.entries(counts)
+      .sort((a,b)=>b[1]-a[1]);
 
+    const top3 = sorted.slice(0,3);
+
+    const medals = ["🥇", "🥈", "🥉"];
+
+    let rankHtml = "";
+
+    top3.forEach(([k, v], idx) => {
+      rankHtml += `${medals[idx]} ${idx+1}위: ${mapType[k].name} (${v}점)<br>`;
+    });
+
+    document.getElementById("rankTop3").innerHTML = rankHtml;
     const share = makeShareText(info, counts);
     const link = makeShareLink(info.code);
 
